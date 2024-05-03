@@ -16,6 +16,7 @@
     "@legendapp/motion": "latest",
     "expo": "^50.0.3",
     "expo-status-bar": "~1.11.1",
+    "lucide-react-native": "^0.378.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.73.2",

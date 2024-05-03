@@ -1,11 +1,9 @@
 import { config } from '@gluestack-ui/config';
-import { Box, GluestackUIProvider, Text } from '@gluestack-ui/themed';
+import { Box, GluestackUIProvider, Text, Input, InputField, Button, VStack, ButtonText, Icon, Heading, FormControl } from '@gluestack-ui/themed';
 import { ScrollView } from 'react-native';
+import { useState } from 'react';
 import Gradient from './assets/Icons/Gradient';
-import DocumentData from './assets/Icons/DocumentData';
-import LightBulbPerson from './assets/Icons/LightbulbPerson';
-import Rocket from './assets/Icons/Rocket';
-import Logo from './assets/Icons/Logo';
+import { Center } from '@gluestack-ui/themed';
 
 export default function App() {
   return (
@@ -47,69 +45,119 @@ const FeatureCard = ({ iconSvg: IconSvg, name, desc }: any) => {
 };
 
 const Container = () => {
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [verificationCode, setVerificationCode] = useState('');
+  const [showSecondCenter, setShowSecondCenter] = useState(false);
+  const [showVerificationSuccess, setShowVerificationSuccess] = useState(false);
+
+  const handleSubmit = () => {
+
+    setShowSecondCenter(true);
+  };
+
+  const handleVerify = () => {
+    
+    setShowVerificationSuccess(true);
+  };
+
   return (
     <Box flex={1} backgroundColor="$black">
-      <ScrollView
-        style={{ height: '100%' }}
-        contentContainerStyle={{ flexGrow: 1 }}
-      >
-        <Box
-          position="absolute"
-          $base-h={500}
-          $base-w={500}
-          $lg-h={700}
-          $lg-w={700}
-        >
+      <ScrollView style={{ height: '100%' }} contentContainerStyle={{ flexGrow: 1 }}>
+        <Box position="absolute" $base-h={500} $base-w={500} $lg-h={700} $lg-w={700}>
           <Gradient />
         </Box>
-        <Box
-          height="60%"
-          $base-my="$16"
-          $base-mx="$5"
-          $base-h="80%"
-          $lg-my="$24"
-          $lg-mx="$32"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Box
-            bg="#64748B33"
-            py="$2"
-            px="$6"
-            rounded="$full"
-            alignItems="center"
-            marginTop={20}
-            $base-flexDirection="column"
-            $sm-flexDirection="row"
-            $md-alignSelf="flex-start"
-          >
-            <Text color="$white" fontWeight="$normal">
-              Get started by editing
-            </Text>
-            <Text color="$white" fontWeight="$medium" ml="$2">
-              App.tsx
+        <Box height="5%" $base-my="$16" $base-mx="$5" $base-h="20%" $lg-my="$24" $lg-mx="$32" justifyContent="space-between" alignItems="center">
+          <Box bg="#64748B33" py="$2" px="$6" rounded="$full" alignItems="center" marginTop={20} $base-flexDirection="column" $sm-flexDirection="row" $md-alignSelf="flex-start">
+            <Text color="$white" fontWeight="$bold" size='2xl'>
+              L O G I N
             </Text>
           </Box>
-          <Box justifyContent="center" alignItems="center">
-            <Logo />
-          </Box>
-          <Box $base-flexDirection="column" $md-flexDirection="row">
-            <FeatureCard
-              iconSvg={DocumentData}
-              name="Docs"
-              desc="Find in-depth information about gluestack features and API."
-            />
-            <FeatureCard
-              iconSvg={LightBulbPerson}
-              name="Learn"
-              desc="Learn about gluestack in an interactive course with quizzes!"
-            />
-            <FeatureCard
-              iconSvg={Rocket}
-              name="Deploy"
-              desc="Instantly drop your gluestack site to a shareable URL with vercel."
-            />
-          </Box>
+          {!showVerificationSuccess ? (
+            !showSecondCenter ? (
+              <Box py="$2" rounded="$full" alignItems="center" marginTop={35} $base-flexDirection="column" $sm-flexDirection="row" $md-alignSelf="flex-start">
+                <Center>
+                  <Box p='$5' maxWidth='$96' borderWidth='$1' mt='$10' borderColor='$backgroundLight300' borderRadius='$lg' $dark-borderColor="$backgroundDark700">
+                    <VStack space='xs' pb='$4'>
+                      <Heading lineHeight={30} color='$white' textAlign='center'>
+                        Enter your phone number
+                      </Heading>
+                      <Text fontSize='$sm' color='#e3e3e3' textAlign='center'>
+                        We will send you a 6-digit code to verify your phone number
+                      </Text>
+                    </VStack>
+                    <VStack space='xl' py='$2'>
+                      <Input>
+                        <InputField
+                          py='$2'
+                          placeholder="Phone Number"
+                          color='$white'
+                          onChangeText={setPhoneNumber}
+                          value={phoneNumber}
+                        />
+                      </Input>
+                    </VStack>
+                    <VStack space='lg' pt='$4'>
+                      <Button size='sm' onPress={handleSubmit}>
+                        <ButtonText>
+                          Submit
+                        </ButtonText>
+                      </Button>
+                    </VStack>
+                  </Box>
+                </Center>
+              </Box>
+            ) : (
+              <Box py="$2" rounded="$full" alignItems="center" marginTop={35} $base-flexDirection="column" $sm-flexDirection="row" $md-alignSelf="flex-start">
+              <Center>
+              
+                <Box p='$5' maxWidth='$96' borderWidth='$1' mt='$10' borderColor='$backgroundLight300' borderRadius='$lg' $dark-borderColor="$backgroundDark700">
+                  <VStack space='xs' pb='$4'>
+                    <Heading lineHeight={30} color='$white' textAlign='center'>
+                      Enter verification code
+                    </Heading>
+                    <Text fontSize='$sm' color='#e3e3e3' textAlign='center'>
+                      Please enter the 6-digit code sent to your phone
+                    </Text>
+                  </VStack>
+                  <VStack space='xl' py='$2'>
+                    <Input>
+                      <InputField
+                        py='$2'
+                        color='$white'
+                        placeholder="Verification Code"
+                        onChangeText={setVerificationCode}
+                        value={verificationCode}
+                      />
+                    </Input>
+                  </VStack>
+                  <VStack space='lg' pt='$4'>
+                    <Button size='sm' onPress={handleVerify}>
+                      <ButtonText>
+                        Verify
+                      </ButtonText>
+                    </Button>
+                  </VStack>
+                </Box>
+              </Center>
+              </Box>
+            )
+          ) : (
+            <Box py="$2" rounded="$full" alignItems="center" marginTop={35} $base-flexDirection="column" $sm-flexDirection="row" $md-alignSelf="flex-start">
+            <Center>
+              
+              <Box p='$5' maxWidth='$96' borderWidth='$1' mt='$10' borderColor='$backgroundLight300' borderRadius='$lg' $dark-borderColor="$backgroundDark700">
+                <VStack space='xs' pb='$4'>
+                  <Heading lineHeight={30} color='$white' textAlign='center'>
+                    Verification Successful
+                  </Heading>
+                  <Text fontSize='$sm' color='#e3e3e3' textAlign='center'>
+                    You are now logged in!
+                  </Text>
+                </VStack>
+              </Box>
+            </Center>
+            </Box>
+          )}
         </Box>
       </ScrollView>
     </Box>
